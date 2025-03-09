@@ -10,15 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/user")
 @RequiredArgsConstructor
-public class RegistrationController {
+public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.addUser(userDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+        return ResponseEntity.ok(userService.verifyUser(userDto));
     }
 
 }
