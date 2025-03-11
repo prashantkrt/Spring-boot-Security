@@ -21,6 +21,7 @@ public class JWTService {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
+
         //claim Type and Claim Value
         //claims.put("Issuer", "Issuer");
         //claims.put("username", user.getUsername());
@@ -78,5 +79,10 @@ public class JWTService {
         //Approach 2 better
         byte[] decodedKey = Base64.getDecoder().decode(secretKey);
         return Keys.hmacShaKeyFor(decodedKey); // will he hashed using hs256
+    }
+
+    public String extractUsername(String token) {
+        return null;
+
     }
 }
