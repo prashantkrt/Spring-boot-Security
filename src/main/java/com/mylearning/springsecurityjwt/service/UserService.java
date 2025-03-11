@@ -19,6 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     public String addUser(UserDto userDto) {
         User user = Mapper.toUser(userDto);
@@ -41,12 +42,13 @@ public class UserService {
         }
     }
 
-    public String verifyUser(String username, String password) {
+    public String verifyUserJWT(UserDto userDto) {
+        User user = Mapper.toUser(userDto);
         // Authentication authenticate(Authentication authentication) => Takes Authentication obj which is UserPasswordAuthenticationToken and returns Authentication object
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if (authentication.isAuthenticated()) {
-            return "JWT token generated successfully";
+            return jwtService.generateToken(user);
         } else {
             return "Invalid username or password";
         }
