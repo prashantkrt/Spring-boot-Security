@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class CustomUserDetails implements UserDetails {
 
     private String username;
@@ -22,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = Arrays.stream(user.getRole().split(","))
-                .map(role->new SimpleGrantedAuthority(role))
+                .map(role -> new SimpleGrantedAuthority(role))
                 .collect(Collectors.toList());
     }
 
