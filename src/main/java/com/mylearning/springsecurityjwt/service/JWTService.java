@@ -86,7 +86,7 @@ public class JWTService {
 
     // will get claims and then fetch the username
     public String extractUsername(String token) {
-        return extractClaims(token, Claims::getIssuer);
+        return extractClaims(token, Claims::getSubject);
         // return extractClaim(token, claims -> claims.getSubject());
         // return extractClaim(token, new Function<Claims, String>() {
         //        @Override

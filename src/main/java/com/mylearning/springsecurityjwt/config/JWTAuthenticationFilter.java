@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -48,7 +49,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                     //Adding the session id and its ip address
-                    WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
+                    //WebAuthenticationDetails details = new WebAuthenticationDetailsSource().buildDetails(request);
+                    //or
+                    WebAuthenticationDetails details = new WebAuthenticationDetails(request);
                     System.out.println("Remote IP address: " + details.getRemoteAddress());
                     System.out.println("Session ID: " + details.getSessionId());
                     authToken.setDetails(details);
@@ -57,9 +60,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-            //once added in SecurityContext will call next filter
-            filterChain.doFilter(request, response);
         }
+        //once added in SecurityContext will call next filter
+        filterChain.doFilter(request, response);
     }
 }
 //Please check which details for better understanding of all the concepts and the
